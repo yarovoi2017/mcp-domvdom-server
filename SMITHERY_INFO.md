@@ -7,11 +7,11 @@
 
 ## MCP Server
 - **Endpoint**: https://api.domvdom.com/mcp/
-- **API Key**: 3c3934d6877a96aadb6d0bd20c7ac0804a6ffcfd17f3a08ee72dde2a1a4b7256
+- **API Key**: [СКРЫТ - указан в переменных окружения]
 - **Статус**: ✅ Работает
 
 ## Smithery.io токен
-- **Token**: 4af4aa06-acfe-4137-872b-18446e35ff93
+- **Token**: [СКРЫТ - указан в переменных окружения]
 - **Статус**: ✅ Готов к использованию
 
 ## Настройка в Smithery.io
@@ -21,8 +21,8 @@
    - **Название**: Domvdom MCP Server
    - **GitHub репозиторий**: yarovoi2017/mcp-domvdom-server
    - **MCP Endpoint**: https://api.domvdom.com/mcp/
-   - **API Key**: 3c3934d6877a96aadb6d0bd20c7ac0804a6ffcfd17f3a08ee72dde2a1a4b7256
-   - **Smithery Token**: 4af4aa06-acfe-4137-872b-18446e35ff93
+   - **API Key**: [получить из переменных окружения]
+   - **Smithery Token**: [получить из переменных окружения]
 
 ## Доступные URL
 - **MCP Server**: https://mcp.domvdom.com
@@ -32,10 +32,18 @@
 ## Проверка подключения
 ```bash
 # Проверка MCP сервера
-curl -H "X-API-Key: 3c3934d6877a96aadb6d0bd20c7ac0804a6ffcfd17f3a08ee72dde2a1a4b7256" https://api.domvdom.com/mcp/v1/status
+curl -H "X-API-Key: [API_KEY]" https://api.domvdom.com/mcp/v1/status
 
 # Проверка GitHub репозитория
 curl https://api.github.com/repos/yarovoi2017/mcp-domvdom-server
+```
+
+## Переменные окружения
+Для получения токенов используйте переменные окружения:
+```bash
+source /root/projects/env
+echo "MCP API Key: $MCP_API_KEY"
+echo "Smithery Token: $SMITHERY_TOKEN"
 ```
 
 ## Обновления
