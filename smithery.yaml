@@ -1,0 +1,56 @@
+# Smithery configuration for MCP server
+name: domvdom-mcp-server
+version: 1.0.0
+description: MCP Server for domvdom.com infrastructure management
+
+# Build configuration
+build:
+  dockerfile: Dockerfile
+  context: .
+
+# Runtime configuration
+runtime:
+  port: 3000
+  healthcheck:
+    path: /health
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+# MCP configuration
+mcp:
+  version: 0.1.0
+  capabilities:
+    tools: true
+    resources: true
+    logging: true
+  
+  # Endpoints
+  endpoints:
+    manifest: /mcp/manifest
+    tools_list: /mcp
+    tools_call: /mcp
+    resources_list: /mcp
+    resources_read: /mcp
+
+# Environment variables
+env:
+  - MCP_SERVER_PORT=3000
+  - NODE_ENV=production
+  - DOMAIN=domvdom.com
+
+# Volumes
+volumes:
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+
+# Networks
+networks:
+  - traefik-network
+
+# Labels for Traefik
+labels:
+  - "traefik.enable=true"
+  - "traefik.http.routers.mcp.rule=Host(`mcp.domvdom.com`)"
+  - "traefik.http.routers.mcp.tls=true"
+  - "traefik.http.routers.mcp.tls.certresolver=cloudflare"
+  - "traefik.http.services.mcp.loadbalancer.server.port=3000" 
