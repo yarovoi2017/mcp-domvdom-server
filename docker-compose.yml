@@ -1,0 +1,31 @@
+networks:
+  postgres-network:
+    external: true
+
+services:
+  mcp-server:
+    build: .
+    container_name: mcp-server
+    restart: unless-stopped
+    networks:
+      - postgres-network
+    volumes:
+      - /root/projects/docker/common:/app/common:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - MCP_SERVER_PORT=${MCP_SERVER_PORT}
+      - MCP_API_KEY=${MCP_API_KEY}
+      - DOMAIN=${DOMAIN}
+      - TG_BOT_TOKEN=${TG_BOT_TOKEN}
+      - TG_CHAT_ID=${TG_CHAT_ID}
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'

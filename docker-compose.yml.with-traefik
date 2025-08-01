@@ -1,0 +1,45 @@
+
+networks:
+  traefik-network:
+    external: true
+  postgres-network:
+    external: true
+
+services:
+  mcp-server:
+    build: .
+    container_name: mcp-server
+    restart: unless-stopped
+    networks:
+      - traefik-network
+      - postgres-network
+    volumes:
+      - /root/projects/docker/common:/app/common:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - MCP_SERVER_PORT=${MCP_SERVER_PORT}
+      - MCP_API_KEY=${MCP_API_KEY}
+      - DOMAIN=${DOMAIN}
+      - TG_BOT_TOKEN=${TG_BOT_TOKEN}
+      - TG_CHAT_ID=${TG_CHAT_ID}
+    # Ограничения ресурсов
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mcp.rule=Host(`api.${DOMAIN}`)"
+      - "traefik.http.routers.mcp.tls=true"
+      - "traefik.http.routers.mcp.tls.certresolver=cloudflare"
+      - "traefik.http.services.mcp.loadbalancer.server.port=${MCP_SERVER_PORT}"
+      - "traefik.http.routers.mcp.middlewares=authentik@file"
+
+external_networks:
+  postgres:
+    external: true
