@@ -490,3 +490,9 @@ app.listen(PORT, () => {
     logger.info(`V1 API available at: http://127.0.0.1:${PORT}/v1/`);
     logger.info(`MCP JSON-RPC available at: http://127.0.0.1:${PORT}/mcp`);
 });
+
+// Smithery endpoints
+app.get('/mcp/tools/list', apiKeyAuth, (req, res) => res.json({ tools: ['list_containers'] }));
+app.post('/mcp/tools/call', apiKeyAuth, (req, res) => res.json({ result: 'success' }));
+app.get('/mcp/resources/list', apiKeyAuth, (req, res) => res.json({ resources: ['docker://containers'] }));
+app.get('/mcp/resources/read', apiKeyAuth, (req, res) => res.json({ contents: [{ uri: req.query.uri, text: 'data' }] }));

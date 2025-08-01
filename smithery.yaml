@@ -28,10 +28,10 @@ mcp:
   # Endpoints
   endpoints:
     manifest: /mcp/manifest
-    tools_list: /mcp
-    tools_call: /mcp
-    resources_list: /mcp
-    resources_read: /mcp
+    tools_list: /mcp/tools/list
+    tools_call: /mcp/tools/call
+    resources_list: /mcp/resources/list
+    resources_read: /mcp/resources/read
 
 # Environment variables
 env:
