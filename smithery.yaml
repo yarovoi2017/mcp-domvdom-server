@@ -1,56 +1,45 @@
-# Smithery configuration for MCP server
 name: domvdom-mcp-server
 version: 1.0.0
-description: MCP Server for domvdom.com infrastructure management
+description: MCP Server for domvdom.com services management
+author: yarovoi2017
+repository: https://github.com/yarovoi2017/mcp-domvdom-server
 
-# Build configuration
-build:
-  dockerfile: Dockerfile
-  context: .
+# Простая конфигурация без Docker
+runtime: node
+node_version: 18
 
-# Runtime configuration
-runtime:
-  port: 3000
-  healthcheck:
-    path: /health
-    interval: 30s
-    timeout: 10s
-    retries: 3
+# Основные endpoints
+endpoints:
+  - path: /
+    method: GET
+    description: Service information
+  - path: /health
+    method: GET
+    description: Health check
+  - path: /mcp
+    method: POST
+    description: MCP JSON-RPC endpoint
+  - path: /mcp/manifest
+    method: GET
+    description: MCP manifest
 
-# MCP configuration
-mcp:
-  version: 0.1.0
-  capabilities:
-    tools: true
-    resources: true
-    logging: true
-  
-  # Endpoints
-  endpoints:
-    manifest: /mcp/manifest
-    tools_list: /mcp/tools/list
-    tools_call: /mcp/tools/call
-    resources_list: /mcp/resources/list
-    resources_read: /mcp/resources/read
+# Переменные окружения
+environment:
+  NODE_ENV: production
+  MCP_SERVER_PORT: 3000
+  MCP_API_KEY: smithery-public-key
+  DOMAIN: mcp.domvdom.com
 
-# Environment variables
-env:
-  - MCP_SERVER_PORT=3000
-  - NODE_ENV=production
-  - DOMAIN=domvdom.com
+# Зависимости
+dependencies:
+  - express
+  - cors
+  - helmet
+  - dotenv
+  - winston
 
-# Volumes
-volumes:
-  - /var/run/docker.sock:/var/run/docker.sock:ro
+# Команда запуска
+start_command: node server-smithery.js
 
-# Networks
-networks:
-  - traefik-network
-
-# Labels for Traefik
-labels:
-  - "traefik.enable=true"
-  - "traefik.http.routers.mcp.rule=Host(`mcp.domvdom.com`)"
-  - "traefik.http.routers.mcp.tls=true"
-  - "traefik.http.routers.mcp.tls.certresolver=cloudflare"
-  - "traefik.http.services.mcp.loadbalancer.server.port=3000" 
+# Порт
+port: 3000 
