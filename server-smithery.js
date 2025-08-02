@@ -28,7 +28,8 @@ app.use(cors({
         'http://127.0.0.1:3000',
         'https://smithery.ai',
         'https://*.smithery.ai',
-        'https://app.smithery.ai'
+        'https://app.smithery.ai',
+        'https://mcp.domvdom.com'
     ] 
 }));
 app.use(express.json({ limit: '1mb' }));

@@ -2,9 +2,9 @@
   "name": "mcp-server-domvdom-smithery",
   "version": "1.0.0",
   "description": "MCP Server for domvdom.com infrastructure (Smithery version)",
-  "main": "server-simple.js",
+  "main": "server-smithery.js",
   "scripts": {
-    "start": "node server-simple.js"
+    "start": "node server-smithery.js"
   },
   "dependencies": {
     "express": "^4.18.2",
