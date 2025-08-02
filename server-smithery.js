@@ -16,7 +16,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
-const PORT = process.env.MCP_SERVER_PORT || 3000;
+const PORT = process.env.PORT || process.env.MCP_SERVER_PORT || 3000;
 
 // Middleware с оптимизацией для ограниченных ресурсов
 app.use(helmet());
