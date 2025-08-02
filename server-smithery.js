@@ -288,13 +288,29 @@ const handleMCPRequest = async (req, res) => {
 app.post('/mcp', apiKeyAuth, handleMCPRequest);
 
 // Базовые маршруты
+app.get('/', (req, res) => {
+    res.json({
+        service: 'mcp-server-domvdom-smithery',
+        version: '1.0.0',
+        status: 'running',
+        mode: 'smithery-mock',
+        endpoints: {
+            health: '/health',
+            mcp: '/mcp',
+            manifest: '/mcp/manifest'
+        }
+    });
+});
+
 app.get('/health', (req, res) => {
     res.json({ 
         status: 'ok', 
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
         version: '1.0.0',
-        mode: 'smithery-mock'
+        mode: 'smithery-mock',
+        memory: process.memoryUsage(),
+        platform: process.platform
     });
 });
 
@@ -320,4 +336,18 @@ app.listen(PORT, () => {
     logger.info(`MCP Server (Smithery Mock Mode) started on port ${PORT}`);
     logger.info(`Local API available at: http://127.0.0.1:${PORT}/`);
     logger.info(`MCP JSON-RPC available at: http://127.0.0.1:${PORT}/mcp`);
+    console.log(`🚀 Server started successfully on port ${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`🔧 MCP endpoint: http://localhost:${PORT}/mcp`);
+});
+
+// Обработка ошибок
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error);
+    logger.error('Uncaught Exception', { error: error.message });
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    logger.error('Unhandled Rejection', { reason: reason.toString() });
 }); 
