@@ -2,18 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Устанавливаем только необходимые пакеты
-RUN apk add --no-cache curl
+COPY package-smithery.json ./package.json
+RUN npm install
 
-# Копируем package.json и устанавливаем зависимости
-COPY package*.json ./
-RUN npm install --omit=dev
-
-# Копируем исходный код
 COPY . .
 
-# Открываем порт
 EXPOSE 3000
 
-# Простая команда запуска без healthcheck
-CMD ["npm", "start"]
+CMD ["node", "server-smithery.js"]
