@@ -2,19 +2,18 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Оптимизация для ограниченных ресурсов
-ENV NODE_OPTIONS="--max-old-space-size=512"
-
+# Устанавливаем только необходимые пакеты
 RUN apk add --no-cache curl
 
+# Копируем package.json и устанавливаем зависимости
 COPY package*.json ./
-RUN npm install --omit=dev && npm cache clean --force
+RUN npm install --omit=dev
 
+# Копируем исходный код
 COPY . .
 
+# Открываем порт
 EXPOSE 3000
 
-HEALTHCHECK --interval=60s --timeout=10s --retries=3 \
-    CMD curl -f http://localhost:3000/health || exit 1
-
+# Простая команда запуска без healthcheck
 CMD ["npm", "start"]
