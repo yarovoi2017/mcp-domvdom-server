@@ -2,11 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package-smithery.json ./package.json
+COPY package*.json ./
 RUN npm install
 
-COPY server-simple.js ./
+COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "server-simple.js"]
+CMD ["node", "server-smithery.js"]
