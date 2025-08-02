@@ -4,10 +4,6 @@ description: MCP Server for domvdom.com services management
 author: yarovoi2017
 repository: https://github.com/yarovoi2017/mcp-domvdom-server
 
-# Простая конфигурация без Docker
-runtime: node
-node_version: 18
-
 # Основные endpoints
 endpoints:
   - path: /
@@ -29,14 +25,6 @@ environment:
   MCP_SERVER_PORT: 3000
   MCP_API_KEY: e3699844-3e17-41a4-af13-4f672973f18c
   DOMAIN: mcp.domvdom.com
-
-# Зависимости
-dependencies:
-  - express
-  - cors
-  - helmet
-  - dotenv
-  - winston
 
 # Команда запуска
 start_command: node server-smithery.js
