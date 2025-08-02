@@ -27,7 +27,7 @@ endpoints:
 environment:
   NODE_ENV: production
   MCP_SERVER_PORT: 3000
-  MCP_API_KEY: smithery-public-key
+  MCP_API_KEY: 3c3934d6877a96aadb6d0bd20c7ac0804a6ffcfd17f3a08ee72dde2a1a4b7256
   DOMAIN: mcp.domvdom.com
 
 # Зависимости
